@@ -6,8 +6,8 @@
 namespace fs = std::filesystem;
 
 // Configuration
-const std::string SERVER_IP   = "192.168.2.1";
-const std::string API_URL     = "http://" + SERVER_IP + ":9000/canvas";
+const std::string API_URL       = "http://192.168.2.1:9000";
+const std::string API_ENDPOINT  = "/canvas";
 
 int main(int argc, char* argv[]) {
     if(argc < 3) {
@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    APIClient client(API_URL, api_key);
+    APIClient client(API_URL, API_ENDPOINT, api_key);
     Visualizer visualizer;
 
     std::cout << "Processing image: " << image_path.filename().string() << std::endl;
