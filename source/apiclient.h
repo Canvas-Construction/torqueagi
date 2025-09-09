@@ -21,7 +21,7 @@ public:
     
 
 private:
-    json SendRequest(httplib::MultipartFormData& items);
+    json SendRequest(httplib::UploadFormDataItems& items);
 
     std::string api_url_;
     std::string api_endpoint_;

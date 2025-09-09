@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 
-json APIClient::SendRequest(std::vector<httplib::MultipartFormData>& items) {
+json APIClient::SendRequest(httplib::UploadFormDataItems& items) {
     // Create client
     httplib::Client cli(api_url_);
 
@@ -36,7 +36,7 @@ json APIClient::DetectSeams(const fs::path& image_path) {
                            std::istreambuf_iterator<char>());
 
     // Prepare multipart items
-    httplib::MultipartFormData items = {
+    httplib::UploadFormDataItems items = {
         {"file", image_data, image_path.filename().string(), "application/octet-stream"},
         {"metadata", "{}", "", "application/json"}};
 
@@ -50,7 +50,7 @@ json APIClient::DetectSeams(const cv::Mat& image, const std::string& id_dummy) {
     std::string image_data(reinterpret_cast<char*>(buf.data()), buf.size());
 
     // multipart/form-data
-    httplib::MultipartFormData items = {
+    httplib::UploadFormDataItems items = {
         { "file", image_data, id_dummy + ".png", "image/png" },
         { "metadata", "{}", "", "application/json" }};
 
