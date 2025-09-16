@@ -6,7 +6,7 @@
 namespace fs = std::filesystem;
 
 // Configuration
-const std::string API_URL       = "http://192.168.2.1:9000";
+const std::string API_URL       = "http://192.168.1.121:9000"; // at C5
 const std::string API_ENDPOINT  = "/canvas";
 
 int main(int argc, char* argv[]) {
@@ -28,10 +28,19 @@ int main(int argc, char* argv[]) {
 
     std::cout << "Processing image: " << image_path.filename().string() << std::endl;
 
-    //json result = client.DetectSeams(image_path);
-        
-    cv::Mat img_buf = cv::imread(image_path.string());
-    json result = client.DetectSeams(img_buf);
+    // Measure duration
+    auto start = high_resolution_clock::now();
+
+    // Request by image path
+    json result = client.DetectSeams(image_path);
+    // Request by image buffer
+    //cv::Mat img_buf = cv::imread(image_path.string());
+    //json result = client.DetectSeams(img_buf);
+
+    duration<double> diff = high_resolution_clock::now() - start;
+
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "Duration: " << diff.count() << "s" << std::endl;
 
     if(result.contains("error")) {
         std::cerr << "API error: " << result["error"] << std::endl;
